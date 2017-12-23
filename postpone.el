@@ -1,4 +1,4 @@
-;;; postpone.el --- Call functions just one time at your first action.  -*- lexical-binding: t; -*-
+;;; postpone.el --- Control boot sequence by a postpone trick.  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2017  Takaaki ISHIKAWA
 
@@ -27,12 +27,9 @@
 ;;
 ;; 1. Put the following code into your init.el. Just copy and paste :)
 ;;
-;; (defun my:onetime-kicker ()
-;;   "Load and execute functions just one time."
-;;   (when (require 'postpone nil t)
-;;     (postpone-mode 1))
-;;   (remove-hook 'pre-command-hook #'my:onetime-kicker))
-;; (add-hook 'pre-command-hook #'my:onetime-kicker)
+;; (if (fboundp 'postpone-kicker)
+;;     (add-hook 'pre-command-hook #'postpone-kicker)
+;;   (user-error "postpone.el is NOT installed properly."))
 ;;
 ;; 2. Bind any commands to `postpone-mode' by `with-eval-after-load'.
 ;;
@@ -80,6 +77,12 @@
               (require x nil t)))
         postpone-package-list)
   (postpone--lock))
+
+;;;###autoload
+(defun postpone-kicker ()
+  "Load and execute functions just one time."
+  (postpone-mode 1)
+  (remove-hook 'pre-command-hook #'postpone-kicker))
 
 ;;;###autoload
 (define-minor-mode postpone-mode

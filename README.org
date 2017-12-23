@@ -1,4 +1,8 @@
-* postpone
+#+TITLE: postpone
+
+Control boot sequence by a postpone trick.
+
+* Introduction
 
 I do NOT want to use ~after-init-hook~ for configuring some settings or calling functions since it makes Emacs booting so heavy. In order to reduce our stress, some activities while booting up can be =postponed= after the first user's action in Emacs. This package provides such =postpone= capability in three approaches.
 
@@ -9,12 +13,6 @@ This package provides a simple loading mechanism of packages with some delay. Th
 Put the following code into your init.el. Just copy and paste :)
 
 #+BEGIN_SRC emacs-lisp
-(defun my:onetime-kicker ()
-  "Load and execute functions just one time."
-  (when (require 'postpone nil t)
-    (postpone-mode 1))
-  (remove-hook 'pre-command-hook #'my:onetime-kicker))
-(add-hook 'pre-command-hook #'my:onetime-kicker)
 #+END_SRC
 
 * Three approaches
