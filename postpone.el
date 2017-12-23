@@ -23,7 +23,12 @@
 
 ;;; Commentary:
 
-;; This package provides a simple loading mechanism of packages with some delay. The normal function `resuire' loads packages when it is evaluated. But if you introduce this minor mode, the associated packages with this mode will be loaded just when you type something for the first time after booting your Emacs. So the loading of associated packages is postponed until you actually start to use Emacs. You need the following two steps.
+;; This package provides a simple loading mechanism of packages with some delay.
+;; The normal function `resuire' loads packages when it is evaluated.
+;; But if you introduce this minor mode, the associated packages with this mode
+;; will be loaded just when you type something for the first time after booting
+;; your Emacs. So the loading of associated packages is postponed until you
+;; actually start to use Emacs. You need the following two steps.
 ;;
 ;; 1. Put the following code into your init.el. Just copy and paste :)
 ;;
@@ -41,7 +46,8 @@
 ;;
 ;; or
 ;;
-;; add package to `postpone-package-list'. The packages in the list will be required when `postpone-mode' is activated.
+;; add package to `postpone-package-list'. The packages in the list will be
+;; required when `postpone-mode' is activated.
 ;; e.g.
 ;; (with-eval-after-load "postpone"
 ;;   (add-to-list 'postpone-package-list 'org))
