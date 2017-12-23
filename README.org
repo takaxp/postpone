@@ -1,18 +1,18 @@
 * postpone
 
-I do NOT want to use ~after-init-hook~ for configuring some settings or calling functions since it makes Emacs booting so heavy. In order to reduce my stress, some activities while booting up can be =postponed= after the first user's action in Emacs. This package provides such =postpone= capability in three approaches.
+I do NOT want to use ~after-init-hook~ for configuring some settings or calling functions since it makes Emacs booting so heavy. In order to reduce our stress, some activities while booting up can be =postponed= after the first user's action in Emacs. This package provides such =postpone= capability in three approaches.
 
 * Basic configuration
 
 Put the following code into your init.el to load specific packages and code when you input something or call a function for the first time.
 
 #+BEGIN_SRC emacs-lisp
-(defun onetime-kicker ()
+(defun my:onetime-kicker ()
   "Load and execute functions just one time."
   (when (require 'postpone nil t)
     (postpone-mode 1))
-  (remove-hook 'pre-command-hook #'onetime-kicker))
-(add-hook 'pre-command-hook #'onetime-kicker)
+  (remove-hook 'pre-command-hook #'my:onetime-kicker))
+(add-hook 'pre-command-hook #'my:onetime-kicker)
 #+END_SRC
 
 * Three approaches
@@ -26,7 +26,7 @@ Put the following code into your init.el to load specific packages and code when
 
 #+BEGIN_SRC emacs-lisp
 (with-eval-after-load "postpone"
-  ;; Any configurations 
+  ;; Any configurations
   (setq val1 t))
 #+END_SRC
 

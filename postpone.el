@@ -23,26 +23,41 @@
 
 ;;; Commentary:
 
-;; Put the following code into your init.el to load specific packages and code
-;; when you input something or call a function for the first time.
+;; This package provides a simple loading mechanism of packages with some delay. The normal function `resuire' loads packages when it is evaluated. But if you introduce this minor mode, the associated packages with this mode will be loaded just when you type something for the first time after booting your Emacs. So the loading of associated packages is postponed until you actually start to use Emacs. You need the following two steps.
 ;;
-;; (defun onetime-kicker ()
+;; 1. Put the following code into your init.el. Just copy and paste :)
+;;
+;; (defun my:onetime-kicker ()
 ;;   "Load and execute functions just one time."
 ;;   (when (require 'postpone nil t)
 ;;     (postpone-mode 1))
-;;   (remove-hook 'pre-command-hook #'onetime-kicker))
-;; (add-hook 'pre-command-hook #'onetime-kicker)
+;;   (remove-hook 'pre-command-hook #'my:onetime-kicker))
+;; (add-hook 'pre-command-hook #'my:onetime-kicker)
+;;
+;; 2. Bind any commands to `postpone-mode' by `with-eval-after-load'.
+;;
+;; (with-eval-after-load "postpone"
+;;   ;; Add any settings you want to load with delay.
+;;   ;; Those settings will be activated when you initially type something.
+;;   )
+;;
+;; or
+;;
+;; add package to `postpone-package-list'. The packages in the list will be required when `postpone-mode' is activated.
+;; e.g.
+;; (with-eval-after-load "postpone"
+;;   (add-to-list 'postpone-package-list 'org))
 ;;
 
 ;;; Code:
 
 (defcustom postpone-package-list nil
-  "A list for loading packages when `postpone-mode' is activated."
+  "A list for loading packages when function `postpone-mode' is activated."
   :type 'sexp
   :group 'postpone)
 
-(defcustom postpone-verbose nil
-  "Show messages"
+(defcustom postpone-verbose t
+  "Show loading messages of required packages."
   :type 'boolean
   :group 'postpone)
 
