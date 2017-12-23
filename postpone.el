@@ -27,9 +27,10 @@
 ;;
 ;; 1. Put the following code into your init.el. Just copy and paste :)
 ;;
+;; (autoload 'postpone-kicker "postpone" nil t) ;; No need for package.el user
 ;; (if (fboundp 'postpone-kicker)
 ;;     (add-hook 'pre-command-hook #'postpone-kicker)
-;;   (user-error "postpone.el is NOT installed properly."))
+;;   (message "postpone.el is NOT installed properly."))
 ;;
 ;; 2. Bind any commands to `postpone-mode' by `with-eval-after-load'.
 ;;

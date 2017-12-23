@@ -13,6 +13,10 @@ This package provides a simple loading mechanism of packages with some delay. Th
 Put the following code into your init.el. Just copy and paste :)
 
 #+BEGIN_SRC emacs-lisp
+(autoload 'postpone-kicker "postpone" nil t) ;; No need for package.el user
+(if (fboundp 'postpone-kicker)
+    (add-hook 'pre-command-hook #'postpone-kicker)
+  (message "postpone.el is NOT installed properly."))
 #+END_SRC
 
 * Three approaches
