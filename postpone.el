@@ -4,6 +4,7 @@
 
 ;; Author: Takaaki ISHIKAWA  <takaxp at ieee dot org>
 ;; Keywords: tools, convenience
+;; Package-Version: 20180104.1148
 ;; Version: 0.9
 ;; URL: https://github.com/takaxp/postpone
 ;; Package-Requires: ((emacs "24.4"))
@@ -32,10 +33,15 @@
 ;;
 ;; 1. Put the following code into your init.el.  Just copy and paste :)
 ;;
-;; (autoload 'postpone-kicker "postpone" nil t) ;; No need for package.el user
-;; (if (fboundp 'postpone-kicker)
-;;     (add-hook 'pre-command-hook #'postpone-kicker)
-;;   (message "postpone.el is NOT installed properly."))
+;; (if (not (load-library "postpone"))
+;;     (message "postpone.el is NOT installed.")
+;;   (autoload 'postpone-kicker "postpone" nil t)
+;;   (defun my:postpone-kicker ()
+;;     (interactive)
+;;     (unless (memq this-command
+;;                   '(self-insert-command save-buffers-kill-terminal))
+;;       (postpone-kicker 'my:postpone-kicker)))
+;;   (add-hook 'pre-command-hook #'my:postpone-kicker))
 ;;
 ;; 2. Bind any commands to `postpone-mode' by `with-eval-after-load'.
 ;;
@@ -86,10 +92,11 @@
   (postpone--lock))
 
 ;;;###autoload
-(defun postpone-kicker ()
+(defun postpone-kicker (kicker)
   "Load and execute functions just one time."
   (postpone-mode 1)
-  (remove-hook 'pre-command-hook #'postpone-kicker))
+  (when (commandp kicker)
+    (remove-hook 'pre-command-hook kicker)))
 
 ;;;###autoload
 (define-minor-mode postpone-mode
