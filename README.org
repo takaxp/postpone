@@ -13,7 +13,7 @@ This package provides a simple loading mechanism of packages with some delay. Th
 Put the following code into your init.el. Just copy and paste :)
 
 #+BEGIN_SRC emacs-lisp
-(if (not (load-library "postpone"))
+(if (not (locate-library "postpone"))
     (message "postpone.el is NOT installed.")
   (autoload 'postpone-kicker "postpone" nil t)
   (defun my:postpone-kicker ()
