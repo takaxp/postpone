@@ -94,7 +94,8 @@
 
 ;;;###autoload
 (defun postpone-kicker (kicker)
-  "Load and execute functions just one time."
+  "Load and execute functions just one time.
+KICKER shall be a command."
   (postpone-mode 1)
   (when (commandp kicker)
     (remove-hook 'pre-command-hook kicker)))
