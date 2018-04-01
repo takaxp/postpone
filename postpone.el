@@ -93,6 +93,11 @@
   (postpone--lock))
 
 ;;;###autoload
+(defun postpone-message (arg)
+  "Show loading message with ARG."
+  (message (format "Loading %s...done" arg)))
+
+;;;###autoload
 (defun postpone-kicker (kicker)
   "Load and execute functions just one time.
 KICKER shall be a command."
