@@ -4,7 +4,7 @@
 
 ;; Author: Takaaki ISHIKAWA  <takaxp at ieee dot org>
 ;; Keywords: tools, convenience
-;; Version: 0.9
+;; Version: 0.9.1
 ;; URL: https://github.com/takaxp/postpone
 ;; Package-Requires: ((emacs "24.4"))
 
@@ -95,7 +95,8 @@
 ;;;###autoload
 (defun postpone-message (arg)
   "Show loading message with ARG."
-  (message (format "Loading %s...done" arg)))
+  (when postpone-verbose
+    (message (format "Loading %s...done" arg))))
 
 ;;;###autoload
 (defun postpone-kicker (kicker)
