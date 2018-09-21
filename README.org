@@ -26,6 +26,29 @@ Put the following code into your init.el. Just copy and paste :)
   (add-hook 'pre-command-hook #'my:postpone-kicker))
 #+END_SRC
 
+** Record initialization time
+
+=M-x postpone-init-time= will report the initialization time to read postponed settings if the following code is applied in your init.el.
+
+#+begin_src emacs-lisp
+(if (not (locate-library "postpone"))
+    (message "postpone.el is NOT installed.")
+  (autoload 'postpone-kicker "postpone" nil t)
+  (defun my-postpone-kicker ()
+    (interactive)
+    (unless (memq this-command ;; specify commands for exclusion
+                  '(self-insert-command
+                    save-buffers-kill-terminal
+                    exit-minibuffer))
+      (message "Activating postponed packages...")
+      (let ((t1 (current-time)))
+        (postpone-kicker 'my-postpone-kicker)
+        (setq postpone-init-time (float-time
+                                  (time-subtract (current-time) t1))))
+      (message "Activating postponed packages...done")))
+  (add-hook 'pre-command-hook #'my-postpone-kicker))
+#+end_src
+
 * Three approaches
 ** postpone-mode-hook
 

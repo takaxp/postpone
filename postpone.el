@@ -4,7 +4,7 @@
 
 ;; Author: Takaaki ISHIKAWA  <takaxp at ieee dot org>
 ;; Keywords: tools, convenience
-;; Version: 0.9.1
+;; Version: 0.9.2
 ;; URL: https://github.com/takaxp/postpone
 ;; Package-Requires: ((emacs "24.4"))
 
@@ -75,6 +75,9 @@
 (defvar postpone--lock nil
   "A variable to lock this mode.")
 
+(defvar postpone-init-time nil
+  "A variable to store the duration of loading postponed packages.")
+
 (defun postpone--lock ()
   "Lock this mode."
   (setq postpone-mode-hook nil)
@@ -92,19 +95,25 @@
         postpone-package-list)
   (postpone--lock))
 
-;;;###autoload
 (defun postpone-message (arg)
   "Show loading message with ARG."
   (when postpone-verbose
     (message (format "Loading %s...done" arg))))
 
-;;;###autoload
 (defun postpone-kicker (kicker)
   "Load and execute functions just one time.
 KICKER shall be a command."
   (postpone-mode 1)
   (when (commandp kicker)
     (remove-hook 'pre-command-hook kicker)))
+
+;;;###autoload
+(defun postpone-init-time ()
+  "Print initialization time of postponed packages."
+  (interactive)
+  (if postpone-init-time
+      (message "%.3f seconds" postpone-init-time)
+    (user-error "The value is NOT initialized.")))
 
 ;;;###autoload
 (define-minor-mode postpone-mode
