@@ -35,14 +35,17 @@
 ;; (if (not (locate-library "postpone"))
 ;;     (message "postpone.el is NOT installed.")
 ;;   (autoload 'postpone-kicker "postpone" nil t)
-;;   (defun my:postpone-kicker ()
+;;   (defun my-postpone-kicker ()
 ;;     (interactive)
 ;;     (unless (memq this-command ;; specify commands for exclusion
 ;;                   '(self-insert-command
 ;;                     save-buffers-kill-terminal
 ;;                     exit-minibuffer))
-;;       (postpone-kicker 'my:postpone-kicker)))
-;;   (add-hook 'pre-command-hook #'my:postpone-kicker))
+;;       (let ((t1 (current-time)))
+;;         (postpone-kicker 'my-postpone-kicker)
+;;         (setq postpone-init-time (float-time
+;;                                   (time-subtract (current-time) t1))))))
+;;   (add-hook 'pre-command-hook #'my-postpone-kicker))
 ;;
 ;; 2. Bind any commands to `postpone-mode' by `with-eval-after-load'.
 ;;
