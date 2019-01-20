@@ -1,6 +1,6 @@
 ;;; postpone.el --- Control boot sequence by a postpone trick.  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2017-2018 Takaaki ISHIKAWA
+;; Copyright (C) 2017-2019 Takaaki ISHIKAWA
 
 ;; Author: Takaaki ISHIKAWA  <takaxp at ieee dot org>
 ;; Keywords: tools, convenience
