@@ -6,7 +6,7 @@ Control boot sequence by a postpone trick.
 
 I do NOT want to use ~after-init-hook~ for configuring some settings or calling functions since it makes Emacs booting so heavy. In order to reduce our stress, some activities while booting up can be =postponed= after the first user's action in Emacs. This package provides such =postpone= capability in three approaches.
 
-This package provides a simple loading mechanism of packages with some delay. The normal function `resuire' loads packages when it is evaluated. But if you introduce this minor mode, the associated packages with this mode will be loaded just when you type something for the first time after booting your Emacs. So the loading of associated packages is postponed until you actually start to use Emacs.
+This package provides a simple loading mechanism of packages with some delay. The normal function `require' loads packages when it is evaluated. But if you introduce this minor mode, the associated packages with this mode will be loaded just when you type something for the first time after booting your Emacs. So the loading of associated packages is postponed until you actually start to use Emacs.
 
 * Basic configuration
 
