@@ -10,7 +10,7 @@ This package provides a simple loading mechanism of packages with some delay. Th
 
 * Basic configuration
 
-Now you just require ~postpone-pre.el~ to setup ~postpone.el~. No need to load ~postpone.el~. All packages configured within in =postpone= minor mode will be effected by user action except when commands registered in ~postpone-pre-exclude~ are executed. ~self-insert-command~, ~save-buffers-kill-terminal~, and ~exit-minibuffer~ are specified in ~postpone-pre-exclude~ as default. Please configure  ~postpone-pre-exclude~ if needed.
+Now you just require ~postpone-pre.el~ to setup ~postpone.el~. No need to load ~postpone.el~ but both files shall be located in load-path. All packages configured within in =postpone= minor mode will be effected by user action except when commands registered in ~postpone-pre-exclude~ are executed. ~self-insert-command~, ~save-buffers-kill-terminal~, and ~exit-minibuffer~ are specified in ~postpone-pre-exclude~ as default. Please configure  ~postpone-pre-exclude~ if needed.
 
 #+begin_src emacs-lisp emacs-lisp
 (when (require 'postpone-pre nil t)
