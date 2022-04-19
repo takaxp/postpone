@@ -10,7 +10,26 @@ This package provides a simple loading mechanism of packages with some delay. Th
 
 * Basic configuration
 
-Put the following code into your init.el. Just copy and paste :)
+Now you just require ~postpone-pre.el~ to setup ~postpone.el~. No need to load ~postpone.el~. All packages configured within in =postpone= minor mode will be effected by user action except when commands registered in ~postpone-pre-exclude~ are executed. ~self-insert-command~, ~save-buffers-kill-terminal~, and ~exit-minibuffer~ are specified in ~postpone-pre-exclude~ as default. Please configure  ~postpone-pre-exclude~ if needed.
+
+#+begin_src emacs-lisp emacs-lisp
+(when (require 'postpone-pre nil t)
+  (setq postpone-pre-exclude
+        '(self-insert-command ;; default
+          newline
+		      forward-char ;; in this case, C-f will not break postpone trick
+		      backward-char
+          delete-char
+		      delete-backward-char
+          save-buffer
+          save-buffers-kill-terminal ;; default
+          electric-newline-and-maybe-indent
+          exit-minibuffer))) ;; default
+#+end_src
+
+Note: The following setting is obsoleted (2022-04-19).
+
++Put the following code into your init.el. Just copy and paste :)+
 
 #+BEGIN_SRC emacs-lisp
 (if (not (locate-library "postpone"))
@@ -28,26 +47,7 @@ Put the following code into your init.el. Just copy and paste :)
 
 ** Record initialization time
 
-=M-x postpone-init-time= will report the initialization time to read postponed settings if the following code is applied in your init.el.
-
-#+begin_src emacs-lisp
-(if (not (locate-library "postpone"))
-    (message "postpone.el is NOT installed.")
-  (autoload 'postpone-kicker "postpone" nil t)
-  (defun my-postpone-kicker ()
-    (interactive)
-    (unless (memq this-command ;; specify commands for exclusion
-                  '(self-insert-command
-                    save-buffers-kill-terminal
-                    exit-minibuffer))
-      (message "Activating postponed packages...")
-      (let ((t1 (current-time)))
-        (postpone-kicker 'my-postpone-kicker)
-        (setq postpone-init-time (float-time
-                                  (time-subtract (current-time) t1))))
-      (message "Activating postponed packages...done")))
-  (add-hook 'pre-command-hook #'my-postpone-kicker))
-#+end_src
+=M-x postpone-init-time= will report the initialization time to read postponed settings.
 
 * Three approaches
 ** postpone-mode-hook
