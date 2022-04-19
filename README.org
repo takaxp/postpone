@@ -17,10 +17,10 @@ Now you just require ~postpone-pre.el~ to setup ~postpone.el~. No need to load ~
   (setq postpone-pre-exclude
         '(self-insert-command ;; default
           newline
-		      forward-char ;; in this case, C-f will not break postpone trick
-		      backward-char
+	  forward-char ;; in this case, C-f will not break postpone trick
+	  backward-char
           delete-char
-		      delete-backward-char
+	  delete-backward-char
           save-buffer
           save-buffers-kill-terminal ;; default
           electric-newline-and-maybe-indent
