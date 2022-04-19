@@ -1,10 +1,10 @@
-;;; postpone.el --- Control boot sequence by a postpone trick.  -*- lexical-binding: t; -*-
+;;; postpone.el --- Control boot sequence by a postpone trick  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2017-2018 Takaaki ISHIKAWA
+;; Copyright (C) 2017-2022 Takaaki ISHIKAWA
 
 ;; Author: Takaaki ISHIKAWA  <takaxp at ieee dot org>
 ;; Keywords: tools, convenience
-;; Version: 0.9.2
+;; Version: 0.9.3
 ;; URL: https://github.com/takaxp/postpone
 ;; Package-Requires: ((emacs "24.4"))
 
@@ -30,22 +30,16 @@
 ;; your Emacs.  So the loading of associated packages is postponed until you
 ;; actually start to use Emacs.  You need the following two steps.
 ;;
-;; 1. Put the following code into your init.el.  Just copy and paste :)
+;; 1. Just require `postpone-pre.el' in init.el. No need to load `postpone.el'.
 ;;
-;; (if (not (locate-library "postpone"))
-;;     (message "postpone.el is NOT installed.")
-;;   (autoload 'postpone-kicker "postpone" nil t)
-;;   (defun my-postpone-kicker ()
-;;     (interactive)
-;;     (unless (memq this-command ;; specify commands for exclusion
-;;                   '(self-insert-command
-;;                     save-buffers-kill-terminal
-;;                     exit-minibuffer))
-;;       (let ((t1 (current-time)))
-;;         (postpone-kicker 'my-postpone-kicker)
-;;         (setq postpone-init-time (float-time
-;;                                   (time-subtract (current-time) t1))))))
-;;   (add-hook 'pre-command-hook #'my-postpone-kicker))
+;; (when (require 'postpone-pre nil t) ;; do NOT specify posrpone.el here
+;;   (setq postpone-pre-exclude '(self-insert-command
+;;                                newline
+;;                                delete-char
+;;                                save-buffer
+;;                                save-buffers-kill-terminal
+;;                                electric-newline-and-maybe-indent
+;;                                exit-minibuffer)))
 ;;
 ;; 2. Bind any commands to `postpone-mode' by `with-eval-after-load'.
 ;;
@@ -64,6 +58,7 @@
 ;;
 
 ;;; Code:
+(require 'postpone-pre)
 
 (defcustom postpone-package-list nil
   "A list for loading packages when function `postpone-mode' is activated."
@@ -77,9 +72,6 @@
 
 (defvar postpone--lock nil
   "A variable to lock this mode.")
-
-(defvar postpone-init-time nil
-  "A variable to store the duration of loading postponed packages.")
 
 (defun postpone--lock ()
   "Lock this mode."
@@ -114,8 +106,8 @@ KICKER shall be a command."
 (defun postpone-init-time ()
   "Print initialization time of postponed packages."
   (interactive)
-  (if postpone-init-time
-      (message "%.3f seconds" postpone-init-time)
+  (if postpone-pre-init-time
+      (message "%.3f seconds" postpone-pre-init-time)
     (user-error "The value is NOT initialized.")))
 
 ;;;###autoload
